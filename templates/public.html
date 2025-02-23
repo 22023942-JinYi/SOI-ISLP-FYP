@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+  <title>SOI ISLP</title>
+  <style>
+    .slideshow-container::before {
+      background-image: var(--bg-image);
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <a href="/" class="logo">
+      <img src="{{ url_for('static', filename='logo/logo.png') }}" alt="rplogo" class="logo-picture">
+    </a>
+    <p class="sign-in">{{ user_email }}</p>
+    {% if user %}
+    <a href="{{ url_for('logout') }}" class="sign-in">⬅ Log Out</a>
+    {% else %}
+    <a href="{{ url_for('login') }}" class="sign-in">Sign In</a>
+    {% endif %}
+  </header>
+  <div class="notification">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}" id="flashMessage">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <div class="slideshow">
+    <div class="slideshow-container">
+      {% for image in slideshow_images %}
+      <div class="mySlides fade">
+        <img src="/get-image/?filename={{ image }}" alt="Slideshow Image">
+      </div>
+      {% endfor %}
+  
+      <a class="prev" onclick="plusSlides(-1)">❮</a>
+      <a class="next" onclick="plusSlides(1)">❯</a>
+    </div>
+  
+    <div class="dotnumber">
+      {% for image in slideshow_images %}
+      <span class="dot" onclick="currentSlide(loop.index)"></span>
+      {% endfor %}
+    </div>
+  </div>
+  
+
+  <div class="content">
+    <details open>
+      <summary class="section-title">Present</summary>
+      <div class="content1">
+        {% for islp in present_islps %}
+        <h2 class="divheader">{{ islp.ISLP }}</h2>
+        <div class="photo-button">
+          <div class="photo-paragraph">
+            <img src="/get-image/?filename={{ islp.photo_file }}" alt="{{ islp.ISLP }}">
+            <div class="paragraph">
+              <p class="roboto-regular">
+                {{ islp.public_information }}<br>
+                📅 Trip Dates: {{ islp.formatted_trip_dates }} <br>
+                📌 Registration Deadline: {{ islp.formatted_deadline }} <br>
+              </p>
+            </div>
+          </div>
+          <div class="learnmore-signup">
+            {% if islp.is_user_approved %}
+            <a href="{{ url_for('learnmore', islp=islp.ISLP) }}" class="btn">Learn More</a>
+            {% endif %}
+            {% if user and islp.is_registration_open %}
+            <a href="{{ url_for('form', islp=islp.ISLP) }}">Sign up</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </details>
+    
+    <details>
+      <summary class="section-title">Past</summary>
+      <div class="content2">
+        {% for islp in past_islps %}
+        <h2 class="divheader">{{ islp.ISLP }}</h2>
+        <div class="photo-paragraph">
+          <img src="/get-image/?filename={{ islp.photo_file }}" alt="{{ islp.ISLP }}">
+          <div class="paragraph">
+            <p class="roboto-regular">
+              {{ islp.public_information }}<br>
+              📅 Trip Dates: {{ islp.formatted_trip_dates }} <br>
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </details>    
+  </div>
+
+
+
+</body>
+<script>
+  let slideIndex = 1;
+  showSlides(slideIndex);
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+
+    //Update background image
+    const container = document.querySelector(".slideshow-container");
+    const currentImage = slides[slideIndex - 1].getElementsByTagName("img")[0].src;
+    container.style.setProperty('--bg-image', `url(${currentImage})`);
+  }
+
+  function menuFunction() {
+    document.getElementById("mySidebar").style.width = "45%";
+  }
+
+  function closeSidebar() {
+    document.getElementById("mySidebar").style.width = "0";
+  }
+
+  //Hide the flash message after 5 seconds
+  setTimeout(function () {
+    const flashMessage = document.getElementById('flashMessage');
+    if (flashMessage) {
+      flashMessage.style.transition = "opacity 0.5s ease-out";
+      flashMessage.style.opacity = "0";
+      setTimeout(() => flashMessage.style.display = "none", 500); //Fully remove after fade-out
+    }
+  }, 5000);
+
+</script>
+
+</body>
+
+</html>

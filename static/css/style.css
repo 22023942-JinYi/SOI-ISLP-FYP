@@ -1,0 +1,386 @@
+* {
+  box-sizing: border-box
+}
+
+.logo-picture {
+  padding-left: 150px;
+}
+
+.flash-message {
+  position: absolute;
+  padding: 15px;
+  left: 41%;
+  border-radius: 5px;
+  max-width: 800px;
+  text-align: center;
+  top: 50px;
+  font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    border-radius: 30px;
+    line-height: 1.5;
+}
+
+.flash-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.flash-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.sign-in{
+  padding-right: 30px;
+  color: black;
+  text-decoration: none;
+  align-self: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: x-large;
+  line-height: 1.5;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-height: 700px;
+  position: relative;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Background container */
+.slideshow-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px) brightness(0.7);
+  opacity: 0.7;
+  z-index: 0;
+  transition: background-image 0.5s ease-in-out;
+}
+
+/* Foreground images */
+.slideshow-container img {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  height: 703px;
+  object-fit: contain;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+.mySlides img {
+  width: 100%;
+  height: 703px;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  z-index: 2;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev {
+  left: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Slideshow dot */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+  z-index: 2;
+}
+
+.dotnumber {
+  padding-top: 15px;
+  text-align: center;
+}
+
+.active,
+.dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+/* Photo and paragraph */
+.photo-paragraph {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-direction: row;
+}
+
+.photo-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.photo-paragraph img {
+  max-width: 30%;
+  object-fit: cover;
+  margin: 0 10px;
+  flex: 1;
+}
+
+.paragraph {
+  margin-left: 30px;
+}
+
+.learnmore-signup {
+  display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    margin: 30px 30px 30px 33%;
+    gap: 30px;
+}
+
+.learnmore-signup a {
+  border-radius: 40px;
+  background: #24cf24;
+  padding: 15px;
+  color: #272727;
+  text-decoration: none;
+  align-self: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: x-large;
+  line-height: 1.5;
+}
+
+
+.roboto-regular {
+  flex: 1;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: x-large;
+  line-height: 1.5;
+}
+
+/* Header of the photo and paragraph */
+.divheader {
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 35px;
+  color: #000000d6;
+}
+
+/* Displaying content */
+.content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10%;
+  padding-right: 10%;
+  justify-content: center;
+  align-content: center;
+  gap: 50px;
+
+}
+
+header {
+  display: flex;
+}
+
+.logo {
+  flex: 1
+}
+
+.logincontainer {
+  width: 430px;
+    padding: 40px 55px 40px 55px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    margin-left: 5%;
+    margin-right: 5%;
+    background: white;
+}
+
+.login-body {
+  background: #80ba27;
+    min-height: 95vh;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-body h1 {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+    font-size: 30px;
+    color: #333333;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.login-body input {
+  font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #555555;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    padding: 0 5px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #adadad;
+    margin-bottom: 37px;
+}
+
+.login-button {
+  font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 50px;
+    border-radius: 35px;
+    border: none;
+    background: #8cb944;
+}
+
+.txt2 {
+  text-decoration: none;
+  color: #000000;
+}
+
+.back-button {
+  position: relative;
+  left: -30px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  color: #2b2b2b;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+/* Collapsible Section */
+details {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+details[open] {
+  background-color: #e9f7e9;
+}
+
+details summary {
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+
+
+.section-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  color: #333;
+}
+
+.content1, .content2 {
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+divheader {
+  font-size: 24px;
+  color: #444;
+}
+
+
+@keyframes fade {
+  from {
+    opacity: .4
+  }
+
+  to {
+    opacity: 1
+  }
+}

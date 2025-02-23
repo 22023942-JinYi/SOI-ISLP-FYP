@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Submissions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            width: 250px;
+
+            height: 100%;
+
+            overflow-y: auto;
+
+
+            width: 270px;
+            background-color: #ffffff;
+            border-right: 1px solid #ccc;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            color: #333;
+            padding: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li a {
+            text-decoration: none;
+            color: #000000;
+            display: block;
+            padding: 30px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar li a:hover {
+            background-color: #a0c4a3;
+        }
+
+        .container {
+            margin-left: 290px;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        a.logout-button {
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: large;
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        a.logout-button:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            max-width: 300px;
+        }
+
+        th {
+            background-color: #d6f1d8;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        td {
+            border-bottom: black solid 1px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        td .tags button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 12px;
+        }
+
+        td .tags button:hover {
+            background-color: #388e3c;
+        }
+
+        a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        td button {
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .approve-btn {
+            color: #4caf50;
+            background: none;
+        }
+
+        .decline-btn {
+            color: #f44336;
+            background: none;
+            margin-left: 10px;
+        }
+
+        .select-all {
+            cursor: pointer;
+        }
+
+        .search-filter {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .search-bar input {
+            font-size: 20px;
+            padding: 8px;
+            border: #a0c4a3 solid 1px;
+            border-radius: 10px;
+            background-color: #d6f1d8;
+        }
+
+        .filter-container button {
+            font-size: 20px;
+            padding: 6px;
+            background: none;
+            border: #005b00 solid 2px;
+            border-radius: 10px;
+            color: #005b00;
+        }
+
+        .modal {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            border: 1px solid #888;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+
+            width: 250px;
+
+            border-radius: 8px;
+        }
+
+
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .modal-content label {
+            display: block;
+
+            margin: 5px 0;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .modal-buttons button {
+            width: 48%;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .modal-footer {
+            text-align: right;
+        }
+
+        .modal-footer button {
+            margin: 0 5px;
+            padding: 10px 15px;
+        }
+
+        .modal-footer .apply-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .modal-footer .cancel-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .modal-body input {
+            margin: 5px;
+        }
+
+        .sidebar-header {
+            gap: 60px;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            padding: 30px 18px;
+        }
+
+        .sidebar-button {
+            height: fit-content;
+            align-content: center;
+            font-size: 17px;
+            padding: 6px;
+            border: #005b00 solid 2px;
+            border-radius: 10px;
+            color: #005b00;
+        }
+
+        #create-islp-container {
+            display: none;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: "Roboto", sans-serif;
+        }
+
+        #create-islp-container h1 {
+            font-size: 28px;
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #create-islp-container form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #create-islp-container form input,
+        #create-islp-container form textarea,
+        #create-islp-container form button {
+            width: 96%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: "Roboto", sans-serif;
+        }
+
+        #create-islp-container form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        #create-islp-container form input[type="file"] {
+            padding: 3px;
+        }
+
+        #create-islp-container form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        #create-islp-container form button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #create-islp-container form button[type="button"] {
+            background-color: #ddd;
+            color: #333;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        #create-islp-container form button[type="button"]:hover {
+            background-color: #ccc;
+        }
+
+        #create-islp-container #trip-dates-container input {
+            margin-bottom: 10px;
+        }
+
+        #create-islp-container button:last-of-type {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #create-islp-container button:last-of-type:hover {
+            background-color: #d32f2f;
+        }
+
+        #details-container {
+            border-radius: 25px;
+            padding: 15px 25px;
+            background-color: #dbf0da;
+        }
+
+        .approve-button,
+        .decline-button {
+            display: none;
+
+            text-align: center;
+            transition: opacity 0.3s ease;
+        }
+
+        
+        .approve-button button,
+        .decline-button button {
+            background-color: #4CAF50;
+
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .decline-button button {
+            background-color: #f44336;
+
+        }
+
+        .approve-button button:hover,
+        .decline-button button:hover {
+            background-color: #45a049;
+
+        }
+
+        .decline-button button:hover {
+            background-color: #d32f2f;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2 style="font-size: 20px;">ISLP</h2>
+            <a href="#" class="sidebar-button" onclick="switchToCreateISLP(); return false;">+ Create</a>
+        </div>
+        <ul>
+            {% for islp in islps %}
+            <li>
+                <a href="#" data-location="{{ islp.ISLP }}">
+                    {{ islp.ISLP }} ({{ islp.submission_count }} submissions)
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 style="padding-right: 55%;">ISLP Submissions</h1>
+            <p style="margin-left: 100px;">{{ user_email }}</p>
+            <a href="{{ url_for('logout') }}" class="logout-button">
+                ⬅ Log Out
+            </a>
+        </div>
+
+        <div id="details-container">
+
+        </div>
+
+        <div id="staff-container" style="display: block;">
+            <!-- Search Bar and Filter -->
+            <div class="search-filter">
+                <div class="search-bar">
+                    <input type="text" id="search-name" placeholder="Search Name" onkeyup="filterSubmissions()">
+                </div>
+
+                <div class="filter-container">
+                    <button onclick="openFilterModal()">〣 Filter</button>
+                </div>
+
+                <div class="approve-button" style="display: none;">
+                    <button onclick="handleBulkAction('approve')">Approve {{number}}</button>
+                </div>
+
+                <div class="decline-button" style="display: none;">
+                    <button onclick="handleBulkAction('decline')">Decline {{number}}</button>
+                </div>
+
+            </div>
+
+            <table id="submissions-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all" class="select-all"></th>
+                        <th>Name</th>
+                        <th>School Email</th>
+                        <th>Personal Email</th>
+                        <th>Diploma</th>
+                        <th>Interest</th>
+                        <th>Document</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        <div id="create-islp-container" style="display: none;">
+            <h1>Create ISLP</h1>
+            <form method="POST" action="/createislp" enctype="multipart/form-data">
+                <label for="islp">ISLP Name:</label>
+                <input type="text" id="islp" name="islp" required><br><br>
+
+                <label for="deadline">Deadline:</label>
+                <input type="date" id="deadline" name="deadline" required><br><br>
+
+                <label for="trip_dates">Trip Dates:</label>
+                <div id="trip-dates-container">
+                    <input type="date" name="trip_dates" required>
+                </div>
+                <button type="button" onclick="addTripDateInput()">➕ Add Another Date</button><br><br>
+
+                <label for="public_information">Public Information:</label>
+                <textarea id="public_information" name="public_information"></textarea><br><br>
+
+                <label for="schedule_file">Schedule File (Excel):</label>
+                <input type="file" id="schedule_file" name="schedule_file" accept=".xls,.xlsx" required><br><br>
+
+                <label for="more_details">More Details:</label>
+                <textarea id="more_details" name="more_details"></textarea><br><br>
+
+                <label for="photo_file">Photo:</label>
+                <input type="file" id="photo_file" name="photo_file" accept="image/*" required><br><br>
+
+                <button type="submit">Create ISLP</button>
+            </form>
+            <button onclick="switchToStaff()">Back to Viewing Applications</button>
+        </div>
+    </div>
+
+    <!-- Modal for Diploma Filter -->
+    <div id="filterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select Diplomas</h2>
+            </div>
+            <div class="modal-body">
+                <label><input type="checkbox" class="diploma-checkbox" value="DAAA"> DAAA</label><br>
+                <label><input type="checkbox" class="diploma-checkbox" value="DCDF"> DCDF</label><br>
+                <label><input type="checkbox" class="diploma-checkbox" value="DECM"> DECM</label><br>
+                <label><input type="checkbox" class="diploma-checkbox" value="DFT"> DFT</label><br>
+                <label><input type="checkbox" class="diploma-checkbox" value="DIT"> DIT</label><br>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="closeFilterModal()">Cancel</button>
+                <button class="apply-btn" onclick="applyFilter()">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let islp;
+
+        function switchToCreateISLP() {
+            document.getElementById('staff-container').style.display = 'none';
+            document.getElementById('details-container').style.display = 'none';
+            document.getElementById('create-islp-container').style.display = 'block';
+        }
+
+        function switchToStaff() {
+            document.getElementById('create-islp-container').style.display = 'none';
+            document.getElementById('staff-container').style.display = 'block';
+            document.getElementById('details-container').style.display = 'block';
+        }
+
+
+        //Add event listener to your Create ISLP button
+        document.querySelector('.sidebar-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            switchToCreateISLP();
+        });
+
+
+        //Call fetchISLPDetails and fetchSubmissions when an ISLP is clicked
+        document.querySelectorAll('.sidebar li a').forEach(link => {
+            link.addEventListener('click', event => {
+                switchToStaff()
+                event.preventDefault();
+
+                //Remove active class from all links
+                document.querySelectorAll('.sidebar li a').forEach(a => a.classList.remove('active'));
+
+                //Add active class to clicked link
+                event.target.classList.add('active');
+
+                islp = event.target.getAttribute('data-location');
+
+
+                //Fetch both ISLP details and submissions
+                fetchISLPDetails(islp);
+                fetchSubmissions(islp);
+            });
+        });
+
+        function fetchISLPDetails(islp) {
+            fetch(`/submissions/${islp}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('details-container').innerHTML = `<p>${data.error}</p>`;
+                        return;
+                    }
+
+                    //Populate the details-container with ISLP details and edit functionality
+                    const detailsHTML = `
+                <h2 style="text-align: center; margin-bottom: 20px; color: #4CAF50;">${data.ISLP}</h2>
+                <div style="display: flex; align-items: flex-start; gap: 20px;">
+                    <div style="flex: 1; max-width: 35%;">
+                        <img src="${data.photo_url}" alt="${data.ISLP}" style="max-width: 100%; border-radius: 8px; height: 320px;">
+                    </div>
+                    <div style="flex: 2;">
+                        <p><strong>Deadline:</strong> ${new Date(data.deadline).toLocaleDateString()}</p>
+                        <p><strong>Public Information:</strong> ${data.public_information}</p>
+                        <p><strong>More Details:</strong> ${data.more_details}</p>
+                        <p><strong>Trip Dates:</strong> ${data.trip_dates.join(', ')}</p>
+                        <p><strong>Schedule File:</strong> <a href="${data.schedule_url}" target="_blank">View Schedule</a></p>
+                    </div>
+                </div>
+                <button id="edit-button" style="margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Edit</button>
+                <div id="edit-form" style="display: none; margin-top: 20px; background-color: #f9f9f9; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <h3 style="text-align: center; color: #4CAF50; margin-bottom: 20px;">Edit Details</h3>
+                    
+                    <label for="trip-dates" style="display: block; margin-bottom: 10px; font-weight: bold;">Trip Dates:</label>
+                    <div id="trip-dates-container" style="margin-bottom: 20px;">
+                        ${data.trip_dates.map((date, index) => `
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;" id="trip-date-${index}">
+                                <input type="date" name="trip_dates" value="${date}" required style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px;">
+                                <button type="button" onclick="removeTripDate(${index})" style="padding: 5px 10px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Remove</button>
+                            </div>`).join('')}
+                    </div>
+                    <button type="button" onclick="addTripDateInput()" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">+ Add Trip Date</button>
+
+                    <label for="details" style="display: block; margin-bottom: 10px; font-weight: bold;">Public Information:</label>
+                    <textarea id="details" name="details" style="width: 97%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;">${data.public_information}</textarea>
+
+                    <label for="more-details" style="display: block; margin-bottom: 10px; font-weight: bold;">More Details:</label>
+                    <textarea id="more-details" name="more_details" style="width: 97%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;">${data.more_details}</textarea>
+
+                    <label for="photo-file" style="display: block; margin-bottom: 10px; font-weight: bold;">Photo:</label>
+                    <input type="file" id="photo-file" name="photo-file" accept="image/*" style="width: 97%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;">
+
+                    <label for="schedule-file" style="display: block; margin-bottom: 10px; font-weight: bold;">Schedule:</label>
+                    <input type="file" id="schedule-file" name="schedule-file" accept=".xls,.xlsx" style="width: 97%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;">
+
+                    <div style="display: flex; justify-content: space-between;">
+                        <button id="save-button" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Save</button>
+                        <button id="cancel-button" style="padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+                    </div>
+                </div>
+            `;
+                    document.getElementById('details-container').innerHTML = detailsHTML;
+
+                    //Add functionality for removing trip dates
+                    window.removeTripDate = function (index) {
+                        const tripDateDiv = document.getElementById(`trip-date-${index}`);
+                        tripDateDiv.remove();
+                    };
+
+                    //Add functionality for dynamically adding trip dates
+                    window.addTripDateInput = function () {
+                        const container = document.getElementById('trip-dates-container');
+                        const newInputId = `trip-date-${container.children.length}`;
+                        const newInputHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;" id="${newInputId}">
+                        <input type="date" name="trip_dates" required style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px;">
+                        <button type="button" onclick="removeTripDate(${container.children.length})" style="padding: 5px 10px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Remove</button>
+                    </div>`;
+                        container.insertAdjacentHTML('beforeend', newInputHTML);
+                    };
+
+                    //Attach event listeners for Edit, Save, and Cancel buttons
+                    document.getElementById('edit-button').addEventListener('click', function () {
+                        document.getElementById('edit-button').style.display = 'none';
+                        document.getElementById('edit-form').style.display = 'block';
+                    });
+
+                    document.getElementById('cancel-button').addEventListener('click', function () {
+                        document.getElementById('edit-form').style.display = 'none';
+                        document.getElementById('edit-button').style.display = 'inline';
+                    });
+
+                    document.getElementById('save-button').addEventListener('click', async function () {
+                        const formData = new FormData();
+                        formData.append('islp', data.ISLP);
+                        formData.append('details', document.getElementById('details').value);
+                        formData.append('more_details', document.getElementById('more-details').value);
+                        formData.append('photo', document.getElementById('photo-file').files[0]);
+                        formData.append('schedule', document.getElementById('schedule-file').files[0]);
+
+                        const tripDates = Array.from(document.querySelectorAll('input[name="trip_dates"]'))
+                            .map(input => input.value);
+                        formData.append('trip_dates', JSON.stringify(tripDates));
+
+                        try {
+                            const response = await fetch('/update-details', {
+                                method: 'POST',
+                                body: formData,
+                            });
+
+                            if (response.ok) {
+                                alert('Details updated successfully!');
+                                fetchISLPDetails(data.ISLP); //Reload details after saving
+                            } else {
+                                alert('Failed to update details.');
+                            }
+                        } catch (error) {
+                            console.error('Error updating details:', error);
+                            alert('An error occurred.');
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching ISLP details:', error);
+                    document.getElementById('details-container').innerHTML = `<p>Error fetching details.</p>`;
+                });
+        }
+
+
+        function fetchSubmissions(islp) {
+            fetch(`/submissions/${islp}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.submissions) {
+                        submissionsData = data.submissions; //Store data globally
+                        filterSubmissions(); //Apply filtering after fetching
+                    } else {
+                        console.error('No submissions found in response');
+                        submissionsData = [];
+                        filterSubmissions();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching submissions:', error);
+                    submissionsData = [];
+                    filterSubmissions();
+                });
+        }
+
+        let submissionsData = []; //Store fetched data
+        let filteredDiplomas = []; //Store selected diplomas
+
+        function updateSidebarCounts() {
+            document.querySelectorAll('.sidebar li a').forEach(async link => {
+                const location = link.getAttribute('data-location');
+                const response = await fetch(`/submissions/${location}`);
+                const data = await response.json();
+                const count = data.length;
+                const line1 = document.createTextNode(location);
+                const line2 = document.createTextNode(`Records: ${count}`);
+                link.textContent = ''; //Clear existing content
+                link.appendChild(line1);
+                link.appendChild(document.createElement('br'));
+                link.appendChild(line2);
+            });
+        }
+
+
+        function renderTable(submissions) {
+            const tableBody = document.getElementById('submissions-table').querySelector('tbody');
+            tableBody.innerHTML = ''; //Clear existing rows
+
+            if (submissions.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="8">No submissions found</td></tr>';
+                return;
+            }
+
+            submissions.forEach(submission => {
+                const row = `
+            <tr data-email="${submission.email}" data-islp="${submission.ISLP}">
+                <td><input type="checkbox" class="select-row"></td>
+                <td>${submission.name}</td>
+                <td>${submission.email}</td>
+                <td>${submission.personal_email}</td>
+                <td>${submission.diploma}</td>
+                <td>${submission.interest}</td>
+                <td><a href="/submissions/document?filename=${submission.file_name}" target="_blank">View Document</a></td>
+                <td>
+                    ${submission.status ?
+                        `<span style="color: ${submission.status === 'Approved' ? 'green' : 'red'}; font-weight: bold;">${submission.status}</span>`
+                        : `Pending`}
+                </td>
+                <td>
+                    <button class="approve-btn" onclick="handleAction('${submission.email}', 'approve', '${submission.personal_email}', '${submission.ISLP}')">✓</button>
+                    <button class="decline-btn" onclick="handleAction('${submission.email}', 'decline', '${submission.personal_email}', '${submission.ISLP}')">X</button>
+                </td>
+            </tr>
+        `;
+
+                tableBody.innerHTML += row;
+            });
+        }
+
+
+        async function handleAction(email, action, personal_email, islp) {
+            const response = await fetch(`/submissions/action`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, action, islp, personal_email })
+            });
+
+            if (response.ok) {
+                fetchSubmissions();
+            } else {
+                alert("Error performing the action");
+            }
+        }
+
+
+        
+       
+        let selectedRows = [];
+
+        document.getElementById('select-all').addEventListener('change', function () {
+            const isChecked = this.checked;
+            const checkboxes = document.querySelectorAll('.select-row');
+            checkboxes.forEach(checkbox => checkbox.checked = isChecked);
+
+            //Update selected rows
+            selectedRows = isChecked ? [...checkboxes] : [];
+            toggleActionButtons();
+        });
+
+        //Handle individual row selection
+        document.getElementById('submissions-table').addEventListener('change', function (event) {
+            if (event.target.classList.contains('select-row')) {
+                const checkbox = event.target;
+                const email = checkbox.closest('tr').dataset.email;
+
+                if (checkbox.checked) {
+                    selectedRows.push(email);
+                } else {
+                    selectedRows = selectedRows.filter(rowEmail => rowEmail !== email);
+                }
+
+                //Update select-all checkbox state
+                const selectAllCheckbox = document.getElementById('select-all');
+                const allChecked = [...document.querySelectorAll('.select-row')].every(checkbox => checkbox.checked);
+                selectAllCheckbox.checked = allChecked;
+
+                //Toggle action buttons
+                toggleActionButtons();
+            }
+        });
+
+        function toggleActionButtons() {
+            const approveButtonContainer = document.querySelector('.approve-button');
+            const declineButtonContainer = document.querySelector('.decline-button');
+            const approveButton = approveButtonContainer.querySelector('button');
+            const declineButton = declineButtonContainer.querySelector('button');
+
+            if (selectedRows.length > 0) {
+                //Enable buttons and show them
+                approveButtonContainer.style.display = 'block';
+                declineButtonContainer.style.display = 'block';
+
+                //Optionally update the button text with the selected count
+                approveButton.textContent = `Approve (${selectedRows.length})`;
+                declineButton.textContent = `Decline (${selectedRows.length})`;
+            } else {
+                //Hide buttons if no rows selected
+                approveButtonContainer.style.display = 'none';
+                declineButtonContainer.style.display = 'none';
+            }
+        }
+
+        //Approval or decline action for selected submissions
+        function handleBulkAction(action) {
+            const selectedCheckboxes = document.querySelectorAll('.select-row:checked');
+
+            selectedCheckboxes.forEach(checkbox => {
+                const row = checkbox.closest('tr');  //Get the parent row
+                const email = row.dataset.email;
+                const personalEmail = row.querySelector('td:nth-child(4)').textContent.trim();
+                const islp = row.dataset.islp; //Get ISLP from dataset
+
+                if (email && personalEmail && islp) {
+                    handleAction(email, action, personalEmail, islp);
+                } else {
+                    console.error('Missing data for:', { email, personalEmail, islp });
+                }
+            });
+
+            if (selectedCheckboxes.length === 0) {
+                alert("Please select at least one row.");
+            }
+        }
+
+
+
+        //Example: Trigger action on approve/decline buttons
+        document.querySelector('.approve-button button').addEventListener('click', () => handleBulkAction('approve'));
+        document.querySelector('.decline-button button').addEventListener('click', () => handleBulkAction('decline'));
+
+        //Open Modal to select diplomas
+        //Open Modal
+        function openFilterModal() {
+            const modal = document.getElementById('filterModal');
+            const filterButton = document.querySelector('.filter-container button');
+
+            //Get the position of the filter button
+            const buttonRect = filterButton.getBoundingClientRect();
+
+            //Adjust modal position
+            modal.style.display = 'block';
+            modal.style.position = 'absolute';
+            modal.style.top = `${buttonRect.bottom + window.scrollY}px`;  //Place it below the button
+            modal.style.left = `${buttonRect.left}px`; //Align it with the button
+            modal.style.zIndex = '1000'; //Ensure it appears on top
+
+            //Allow closing modal when clicking outside
+            window.addEventListener('click', outsideClickHandler);
+        }
+
+        //Function to close modal when clicking outside
+        function outsideClickHandler(event) {
+            const modal = document.getElementById('filterModal');
+            const filterButton = document.querySelector('.filter-container button');
+
+            if (!modal.contains(event.target) && event.target !== filterButton) {
+                closeFilterModal();
+            }
+        }
+
+        //Function to close the modal
+        function closeFilterModal() {
+            const modal = document.getElementById('filterModal');
+            modal.style.display = 'none';
+
+            //Remove event listener to avoid multiple listeners
+            window.removeEventListener('click', outsideClickHandler);
+        }
+
+
+
+        //Apply the filter based on selected diplomas
+        function applyFilter() {
+            filteredDiplomas = Array.from(document.querySelectorAll('.diploma-checkbox:checked'))
+                .map(checkbox => checkbox.value);
+            filterSubmissions(); //Re-filter submissions after applying
+            closeFilterModal();
+        }
+
+
+        //Filtering based on name and selected diplomas
+        function filterSubmissions() {
+            const searchQuery = document.getElementById('search-name').value.toLowerCase();
+            let filteredData = submissionsData; //Use the stored data
+
+            //Filter by name
+            if (searchQuery) {
+                filteredData = filteredData.filter(submission =>
+                    submission.name.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            //Filter by selected diplomas
+            if (filteredDiplomas.length > 0) {
+                filteredData = filteredData.filter(submission =>
+                    filteredDiplomas.includes(submission.diploma)
+                );
+            }
+
+            renderTable(filteredData);
+        }
+
+
+        //Initial fetch for the default active location
+        fetchSubmissions();
+
+        function addTripDateInput() {
+            const container = document.getElementById('trip-dates-container');
+
+            //Create a div to hold the input and remove button
+            const dateDiv = document.createElement('div');
+            dateDiv.style.display = "flex";
+            dateDiv.style.alignItems = "center";
+            dateDiv.style.marginBottom = "5px"; //Add spacing between fields
+
+            //Create the date input field
+            const input = document.createElement('input');
+            input.type = 'date';
+            input.name = 'trip_dates';
+            input.required = true;
+            input.style.marginRight = "10px"; //Add space between input and button
+
+            //Create the remove button
+            const removeButton = document.createElement('button');
+            removeButton.type = "button"; //Prevent form submission
+            removeButton.textContent = "Remove";
+            removeButton.style.background = "#f44336";
+            removeButton.style.color = "white";
+            removeButton.style.border = "none";
+            removeButton.style.padding = "5px 10px";
+            removeButton.style.cursor = "pointer";
+            removeButton.style.borderRadius = "5px";
+            removeButton.style.width = "35%";
+
+            //Attach an event to remove the input field when clicked
+            removeButton.onclick = function () {
+                container.removeChild(dateDiv);
+            };
+
+            //Append elements to the div, then add to container
+            dateDiv.appendChild(input);
+            dateDiv.appendChild(removeButton);
+            container.appendChild(dateDiv);
+        }
+
+
+    </script>
+</body>
+
+</html>

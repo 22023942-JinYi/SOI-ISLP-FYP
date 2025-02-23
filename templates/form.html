@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Applicant Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        form {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .back {
+            margin-right: 90px;
+            color: black;
+            text-decoration: none;
+            align-self: center;
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: x-large;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='logo/logo.png') }}" alt="Logo" class="logo-picture">
+        </a>
+        <a href="/" class="back">⬅ Back</a>
+    </header>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <h2>Applicant Form for {{ islp }}</h2>
+
+        <!-- Hidden field for ISLP -->
+        <input type="hidden" name="islp" value="{{ islp }}">
+
+        <label for="name">Name *</label>
+        <input type="text" id="name" name="name" placeholder="Your name"
+            value="{{ submission.name if submission else '' }}" required>
+
+        <label for="email">School Email *</label>
+        <input type="email" id="email" name="email" placeholder="Your school email" value="{{ user_email }}" readonly
+            required>
+
+        <label for="personalemail">Personal Email *</label>
+        <input type="email" id="personalemail" name="personalemail" placeholder="Your personal email"
+            value="{{ submission.personal_email if submission else '' }}" required>
+
+        <label for="diploma">Diploma *</label>
+        <select id="diploma" name="diploma" required>
+            <option value="DAAA" {% if submission and submission.diploma=='DAAA' %}selected{% endif %}>DAAA</option>
+            <option value="DCDF" {% if submission and submission.diploma=='DCDF' %}selected{% endif %}>DCDF</option>
+            <option value="DECM" {% if submission and submission.diploma=='DECM' %}selected{% endif %}>DECM</option>
+            <option value="DFT" {% if submission and submission.diploma=='DFT' %}selected{% endif %}>DFT</option>
+            <option value="DIT" {% if submission and submission.diploma=='DIT' %}selected{% endif %}>DIT</option>
+        </select>
+
+        <label for="interest">State Your Interest</label>
+        <textarea id="interest" name="interest" rows="4">{{ submission.interest if submission else '' }}</textarea>
+
+        <label for="testimonials">Upload File *</label>
+        {% if submission and submission.file_name %}
+        <p>
+            Current file:
+            <a href="/submissions/document?filename={{ submission.file_name }}">{{ submission.file_name }}</a>
+        </p>
+        {% endif %}
+        <input type="file" id="testimonials" name="testimonials">
+
+
+        <button type="submit">Save</button>
+    </form>
+    <script>
+        document.querySelector("form").addEventListener("submit", function (e) {
+            let fileInput = document.getElementById("testimonials");
+            let filePath = fileInput.value;
+            let allowedExtensions = /(\.doc|\.docx)$/i;
+    
+            if (!allowedExtensions.exec(filePath)) {
+                alert("Please upload a valid Word document (.doc or .docx).");
+                fileInput.value = "";
+                e.preventDefault();
+            }
+        });
+    </script>
+    
+</body>
+
+</html>
